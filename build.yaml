@@ -1,0 +1,15 @@
+targets:
+  $default:
+    builders:
+      flutter_navkit|navkit_routes_builder:
+        enabled: true
+        generate_for:
+          - lib/**
+
+builders:
+  navkit_routes_builder:
+    import: "package:flutter_navkit/builder.dart"
+    builder_factories: ["navkitRoutesBuilder"]
+    build_extensions: {".dart": [".navkit_routes.g.dart"]}
+    auto_apply: dependents
+    build_to: source
