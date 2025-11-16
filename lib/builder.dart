@@ -17,11 +17,11 @@ class NavkitRoutesGenerator extends Generator {
 
         if (annotation != null) {
           final className = element.name;
-          final routeNameArg = annotation.getField('routeName')?.toStringValue();
+          final routeNameArg = annotation.getField("routeName")?.toStringValue();
 
           // Generate route name
           final routeName = routeNameArg ??
-              '/${className[0].toLowerCase()}${className.substring(1)}Route';
+              "/${className[0].toLowerCase()}${className.substring(1)}Route";
 
           annotatedWidgets[className] = routeName;
         }
@@ -29,34 +29,36 @@ class NavkitRoutesGenerator extends Generator {
     }
 
     if (annotatedWidgets.isEmpty) {
-      return '';
+      return "";
     }
 
     // Generate the NavkitRoutes class
     final buffer = StringBuffer();
-    buffer.writeln('// GENERATED CODE - DO NOT MODIFY BY HAND');
-    buffer.writeln('// **************************************************************************');
-    buffer.writeln('// NavkitRoutesGenerator');
-    buffer.writeln('// **************************************************************************');
+    buffer.writeln("// GENERATED CODE - DO NOT MODIFY BY HAND");
+    buffer.writeln("// **************************************************************************");
+    buffer.writeln("// NavkitRoutesGenerator");
+    buffer.writeln("// **************************************************************************");
     buffer.writeln();
-    buffer.writeln('class NavkitRoutes {');
-    buffer.writeln('  NavkitRoutes._();');
+    buffer.writeln("part of 'main.dart';");
+    buffer.writeln();
+    buffer.writeln("class NavkitRoutes {");
+    buffer.writeln("  NavkitRoutes._();");
     buffer.writeln();
 
     for (var entry in annotatedWidgets.entries) {
       final camelCase = _toCamelCase(entry.key);
-      buffer.writeln('  /// Route name for ${entry.key}');
-      buffer.writeln('  static const String $camelCase = \'${entry.value}\';');
+      buffer.writeln("  /// Route name for ${entry.key}");
+      buffer.writeln("  static const String $camelCase = \"${entry == annotatedWidgets.entries.first ? "/" : entry.value}\";");
       buffer.writeln();
     }
 
-    buffer.writeln('  /// Map of all registered routes');
-    buffer.writeln('  static const Map<String, String> all = {');
+    buffer.writeln("  /// Map of all registered routes");
+    buffer.writeln("  static const Map<String, String> all = {");
     for (var entry in annotatedWidgets.entries) {
-      buffer.writeln('    \'${entry.key}\': \'${entry.value}\',');
+      buffer.writeln("    \"${entry.key}\": \"${entry == annotatedWidgets.entries.first ? "/" : entry.value}\",");
     }
-    buffer.writeln('  };');
-    buffer.writeln('}');
+    buffer.writeln("  };");
+    buffer.writeln("}");
 
     return buffer.toString();
   }
@@ -71,6 +73,6 @@ class NavkitRoutesGenerator extends Generator {
 Builder navkitRoutesBuilder(BuilderOptions options) {
   return SharedPartBuilder(
     [NavkitRoutesGenerator()],
-    'navkit_routes',
+    "navkit_routes",
   );
 }

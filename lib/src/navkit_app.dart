@@ -128,7 +128,7 @@ class NavkitApp extends StatelessWidget {
       supportedLocales: supportedLocales ?? <Locale>[Locale('en', 'US')],
       checkerboardRasterCacheImages: checkerboardRasterCacheImages ?? false,
       themeAnimationDuration: themeAnimationDuration ?? kThemeAnimationDuration,
-      navigatorObservers: hasNavkit ? observers : [NavkitObserver(withStack: observeWithStack ?? true), ...observers],
+      navigatorObservers: hasNavkit ? observers : [NavkitObserver(withStack: observeWithStack ?? false), ...observers],
     );
   }
 }

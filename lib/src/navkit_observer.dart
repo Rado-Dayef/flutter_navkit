@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class NavkitObserver extends NavigatorObserver {
   bool withStack;
 
-  NavkitObserver({this.withStack = true});
+  NavkitObserver({this.withStack = false});
 
   static final List<Route<dynamic>> _routes = [];
 
@@ -17,7 +17,7 @@ class NavkitObserver extends NavigatorObserver {
     _routes.add(route);
 
     if (kDebugMode) {
-      debugPrint("➡️ Push → ${_fmt(route)}${previousRoute == null ? '' : ' (from: ${_fmt(previousRoute)})'}");
+      debugPrint("➡️ Push → ${_fmt(route)}${previousRoute == null ? "" : " (from: ${_fmt(previousRoute)})"}");
       _printStack();
     }
   }
@@ -70,7 +70,7 @@ class NavkitObserver extends NavigatorObserver {
     final name = route?.settings.name;
     if (name == null) return "Unknown";
     if (name == "/") return "Initial";
-    final cleaned = name.replaceAll('/', '');
+    final cleaned = name.replaceAll("/", "");
     if (cleaned.isEmpty) return "Unnamed";
     return cleaned[0].toUpperCase() + cleaned.substring(1);
   }
