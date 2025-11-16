@@ -20,7 +20,8 @@
 //           final routeNameArg = annotation.getField("routeName")?.toStringValue();
 //
 //           // Generate route name
-//           final routeName = routeNameArg ?? "/${className[0].toLowerCase()}${className.substring(1)}Route";
+//           final routeName = routeNameArg ??
+//               "/${className[0].toLowerCase()}${className.substring(1)}Route";
 //
 //           annotatedWidgets[className] = routeName;
 //         }
@@ -50,11 +51,11 @@
 //       // Set first route to "/" (root), others use their generated/custom route
 //       final routeValue = entry.key == firstEntry.key ? "/" : entry.value;
 //       buffer.writeln("  /// Route name for ${entry.key}");
-//       buffer.writeln("  static const String $camelCase = '$routeValue';");
+//       buffer.writeln("  static const String $camelCase = \"$routeValue\";");
 //       buffer.writeln();
 //     }
 //
-//     buffer.writeln("  /// All registered routes");
+//     buffer.writeln("  /// Map of all registered routes");
 //     buffer.writeln("  static const Map<String, String> all = {");
 //     for (var entry in annotatedWidgets.entries) {
 //       // Set first route to "/" (root), others use their generated/custom route
@@ -95,16 +96,14 @@ class NavkitRoutesGenerator extends Generator {
     // Find all classes annotated with @NavkitRoute
     for (var element in library.allElements) {
       if (element is ClassElement) {
-        final annotation = const TypeChecker.fromRuntime(NavkitRoute)
-            .firstAnnotationOf(element);
+        final annotation = const TypeChecker.fromRuntime(NavkitRoute).firstAnnotationOf(element);
 
         if (annotation != null) {
           final className = element.name;
-          final routeNameArg = annotation.getField("routeName")?.toStringValue();
+          final isInitialArg = annotation.getField("isInitial")?.toBoolValue();
 
           // Generate route name
-          final routeName = routeNameArg ??
-              "/${className[0].toLowerCase()}${className.substring(1)}Route";
+          final routeName = (isInitialArg ?? false) ? "/" : "/${className[0].toLowerCase()}${className.substring(1)}Route";
 
           annotatedWidgets[className] = routeName;
         }
@@ -114,9 +113,6 @@ class NavkitRoutesGenerator extends Generator {
     if (annotatedWidgets.isEmpty) {
       return "";
     }
-
-    // Get the first entry for the root route
-    final firstEntry = annotatedWidgets.entries.first;
 
     // Generate the NavkitRoutes class
     final buffer = StringBuffer();
@@ -132,17 +128,17 @@ class NavkitRoutesGenerator extends Generator {
     for (var entry in annotatedWidgets.entries) {
       final camelCase = _toCamelCase(entry.key);
       // Set first route to "/" (root), others use their generated/custom route
-      final routeValue = entry.key == firstEntry.key ? "/" : entry.value;
+      final routeValue = entry.value;
       buffer.writeln("  /// Route name for ${entry.key}");
-      buffer.writeln("  static const String $camelCase = \"$routeValue\";");
+      buffer.writeln("  static const String $camelCase = '$routeValue';");
       buffer.writeln();
     }
 
-    buffer.writeln("  /// Map of all registered routes");
+    buffer.writeln("  /// All registered routes");
     buffer.writeln("  static const Map<String, String> all = {");
     for (var entry in annotatedWidgets.entries) {
       // Set first route to "/" (root), others use their generated/custom route
-      final routeValue = entry.key == firstEntry.key ? "/" : entry.value;
+      final routeValue = entry.value;
       buffer.writeln("    \"${entry.key}\": \"$routeValue\",");
     }
     buffer.writeln("  };");
