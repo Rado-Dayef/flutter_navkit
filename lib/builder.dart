@@ -32,6 +32,9 @@ class NavkitRoutesGenerator extends Generator {
       return "";
     }
 
+    // Get the first entry for the root route
+    final firstEntry = annotatedWidgets.entries.first;
+
     // Generate the NavkitRoutes class
     final buffer = StringBuffer();
     buffer.writeln("// GENERATED CODE - DO NOT MODIFY BY HAND");
@@ -39,23 +42,25 @@ class NavkitRoutesGenerator extends Generator {
     buffer.writeln("// NavkitRoutesGenerator");
     buffer.writeln("// **************************************************************************");
     buffer.writeln();
-    buffer.writeln("part of 'main.dart';");
-    buffer.writeln();
     buffer.writeln("class NavkitRoutes {");
     buffer.writeln("  NavkitRoutes._();");
     buffer.writeln();
 
     for (var entry in annotatedWidgets.entries) {
       final camelCase = _toCamelCase(entry.key);
+      // Set first route to "/" (root), others use their generated/custom route
+      final routeValue = entry.key == firstEntry.key ? "/" : entry.value;
       buffer.writeln("  /// Route name for ${entry.key}");
-      buffer.writeln("  static const String $camelCase = \"${entry == annotatedWidgets.entries.first ? "/" : entry.value}\";");
+      buffer.writeln("  static const String $camelCase = '$routeValue';");
       buffer.writeln();
     }
 
     buffer.writeln("  /// Map of all registered routes");
     buffer.writeln("  static const Map<String, String> all = {");
     for (var entry in annotatedWidgets.entries) {
-      buffer.writeln("    \"${entry.key}\": \"${entry == annotatedWidgets.entries.first ? "/" : entry.value}\",");
+      // Set first route to "/" (root), others use their generated/custom route
+      final routeValue = entry.key == firstEntry.key ? "/" : entry.value;
+      buffer.writeln("    '${entry.key}': '$routeValue',");
     }
     buffer.writeln("  };");
     buffer.writeln("}");
@@ -71,8 +76,8 @@ class NavkitRoutesGenerator extends Generator {
 
 /// Builder factory
 Builder navkitRoutesBuilder(BuilderOptions options) {
-  return SharedPartBuilder(
-    [NavkitRoutesGenerator()],
-    "navkit_routes",
+  return LibraryBuilder(
+    NavkitRoutesGenerator(),
+    generatedExtension: '.navkit.dart',
   );
 }
