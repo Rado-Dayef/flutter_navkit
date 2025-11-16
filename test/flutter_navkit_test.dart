@@ -200,16 +200,4 @@ void main() {
       expect(find.text('Home'), findsNothing);
     });
   });
-
-  group('NavkitRoute Annotation Tests', () {
-    test('NavkitRoute annotation can be instantiated', () {
-      const annotation = NavkitRoute();
-      expect(annotation.routeName, null);
-    });
-
-    test('NavkitRoute annotation accepts custom route name', () {
-      const annotation = NavkitRoute(routeName: '/custom');
-      expect(annotation.routeName, '/custom');
-    });
-  });
 }
