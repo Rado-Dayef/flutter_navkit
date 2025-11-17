@@ -51,10 +51,10 @@ void main() {
     });
   });
 
-  group('NavkitApp Tests', () {
-    testWidgets('NavkitApp builds with home widget', (tester) async {
+  group('NavkitMaterialApp Tests', () {
+    testWidgets('NavkitMaterialApp builds with home widget', (tester) async {
       await tester.pumpWidget(
-        NavkitApp(
+        NavkitMaterialApp(
           home: Scaffold(
             body: Text('Home'),
           ),
@@ -64,9 +64,9 @@ void main() {
       expect(find.text('Home'), findsOneWidget);
     });
 
-    testWidgets('NavkitApp generates routes from navkitRoutes', (tester) async {
+    testWidgets('NavkitMaterialApp generates routes from navkitRoutes', (tester) async {
       await tester.pumpWidget(
-        NavkitApp(
+        NavkitMaterialApp(
           navkitRoutes: [
             Scaffold(key: Key('screen1'), body: Text('Screen 1')),
             Scaffold(key: Key('screen2'), body: Text('Screen 2')),
@@ -79,8 +79,8 @@ void main() {
       expect(find.text('Screen 1'), findsOneWidget);
     });
 
-    testWidgets('NavkitApp automatically adds NavkitObserver', (tester) async {
-      final app = NavkitApp(
+    testWidgets('NavkitMaterialApp automatically adds NavkitObserver', (tester) async {
+      final app = NavkitMaterialApp(
         home: Scaffold(body: Text('Test')),
       );
 
@@ -100,7 +100,7 @@ void main() {
               return Scaffold(
                 body: ElevatedButton(
                   onPressed: () {
-                    context.push(Scaffold(body: Text('Pushed')));
+                    context.to(Scaffold(body: Text('Pushed')));
                   },
                   child: Text('Push'),
                 ),
@@ -134,7 +134,7 @@ void main() {
 
       // Pop it
       final secondContext = tester.element(find.text('Second'));
-      secondContext.pop();
+      secondContext.back();
       await tester.pumpAndSettle();
 
       expect(find.text('Home'), findsOneWidget);
@@ -175,7 +175,7 @@ void main() {
       );
 
       final context = tester.element(find.text('Home'));
-      context.pushRoute('/profile');
+      context.toNamed('/profile');
       await tester.pumpAndSettle();
 
       expect(find.text('Profile'), findsOneWidget);
@@ -193,7 +193,7 @@ void main() {
       );
 
       final context = tester.element(find.text('Home'));
-      context.pushReplacementRoute('/profile');
+      context.replaceWithNamed('/profile');
       await tester.pumpAndSettle();
 
       expect(find.text('Profile'), findsOneWidget);
