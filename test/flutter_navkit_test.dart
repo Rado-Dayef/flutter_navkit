@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_navkit/src/navigation/shared_extension.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_navkit/flutter_navkit.dart';
 
 void main() {
   group('NavkitObserver Tests', () {
     test('hasRoute returns true when route exists', () {
-      final observer = NavkitObserver();
+      final observer = Observer();
       final route = MaterialPageRoute(
         builder: (_) => Container(),
         settings: RouteSettings(name: '/home'),
@@ -13,26 +14,26 @@ void main() {
 
       observer.didPush(route, null);
 
-      expect(NavkitObserver.hasRoute('/home'), true);
-      expect(NavkitObserver.hasRoute('/nonexistent'), false);
+      expect(Observer.hasRoute('/home'), true);
+      expect(Observer.hasRoute('/nonexistent'), false);
     });
 
     test('route is removed after pop', () {
-      final observer = NavkitObserver();
+      final observer = Observer();
       final route = MaterialPageRoute(
         builder: (_) => Container(),
         settings: RouteSettings(name: '/test'),
       );
 
       observer.didPush(route, null);
-      expect(NavkitObserver.hasRoute('/test'), true);
+      expect(Observer.hasRoute('/test'), true);
 
       observer.didPop(route, null);
-      expect(NavkitObserver.hasRoute('/test'), false);
+      expect(Observer.hasRoute('/test'), false);
     });
 
     test('route is replaced correctly', () {
-      final observer = NavkitObserver();
+      final observer = Observer();
       final oldRoute = MaterialPageRoute(
         builder: (_) => Container(),
         settings: RouteSettings(name: '/old'),
@@ -43,11 +44,11 @@ void main() {
       );
 
       observer.didPush(oldRoute, null);
-      expect(NavkitObserver.hasRoute('/old'), true);
+      expect(Observer.hasRoute('/old'), true);
 
       observer.didReplace(oldRoute: oldRoute, newRoute: newRoute);
-      expect(NavkitObserver.hasRoute('/old'), false);
-      expect(NavkitObserver.hasRoute('/new'), true);
+      expect(Observer.hasRoute('/old'), false);
+      expect(Observer.hasRoute('/new'), true);
     });
   });
 

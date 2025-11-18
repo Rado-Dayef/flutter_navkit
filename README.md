@@ -2,8 +2,8 @@
 
 A powerful and elegant navigation toolkit for Flutter that simplifies routing with type-safe navigation, automatic route generation, and comprehensive navigation observability.
 
-[![flutter_navkit 0.0.6](https://img.shields.io/badge/flutter__navkit-0.0.6-blue)](https://pub.dev/packages/flutter_navkit/install)
-[![repo 0.0.6](https://img.shields.io/badge/repo-flutter__navkit-teal?logo=github&logoColor=white)](https://github.com/Rado-Dayef/flutter_navkit)
+[![flutter_navkit 0.0.7](https://img.shields.io/badge/flutter__navkit-0.0.7-blue)](https://pub.dev/packages/flutter_navkit/install)
+[![repo 0.0.7](https://img.shields.io/badge/repo-flutter__navkit-teal?logo=github&logoColor=white)](https://github.com/Rado-Dayef/flutter_navkit)
 
 ---
 
@@ -29,7 +29,7 @@ Add this to your package's `pubspec.yaml` file:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_navkit: ^0.0.6
+  flutter_navkit: ^0.0.7
 
 dev_dependencies:
   build_runner: ^2.4.13
