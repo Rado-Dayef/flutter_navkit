@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_navkit/src/observer.dart';
+import 'package:flutter_navkit/src/navkit_observer.dart';
 
 /// A wrapper around [MaterialApp] with automatic support for NavKit navigation.
 ///
 /// `NavkitMaterialApp` simplifies routing by automatically generating named routes from
-/// a list of screens (`navkitRoutes`) and integrating [Observer] for
+/// a list of screens (`navkitRoutes`) and integrating [NavkitObserver] for
 /// route tracking. It also supports all common [MaterialApp] parameters.
 ///
 /// Example usage:
@@ -35,7 +35,7 @@ class NavkitMaterialApp extends StatelessWidget {
   /// Initial route when the app starts.
   final String? initialRoute;
 
-  /// Whether to include the route stack in [Observer] debugging.
+  /// Whether to include the route stack in [NavkitObserver] debugging.
   final bool? observeWithStack;
 
   /// List of screens to automatically generate named routes for.
@@ -159,7 +159,7 @@ class NavkitMaterialApp extends StatelessWidget {
     final observers = navigatorObservers ?? [];
 
     // Check if the observers already include a NavkitObserver.
-    final hasNavkit = observers.any((observer) => observer is Observer);
+    final hasNavkit = observers.any((observer) => observer is NavkitObserver);
 
     // Map to hold the generated routes for MaterialApp.
     final Map<String, WidgetBuilder> appRoutes = {};
@@ -229,7 +229,7 @@ class NavkitMaterialApp extends StatelessWidget {
       supportedLocales: supportedLocales ?? <Locale>[Locale('en', 'US')],
       checkerboardRasterCacheImages: checkerboardRasterCacheImages ?? false,
       themeAnimationDuration: themeAnimationDuration ?? kThemeAnimationDuration,
-      navigatorObservers: hasNavkit ? observers : [Observer(withStack: observeWithStack ?? false), ...observers],
+      navigatorObservers: hasNavkit ? observers : [NavkitObserver(withStack: observeWithStack ?? false), ...observers],
     );
   }
 }

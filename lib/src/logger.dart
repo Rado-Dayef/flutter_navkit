@@ -31,12 +31,12 @@ class Logger {
 
   /// Prints the full navigator stack when [withStack] is true.
   ///
-  /// This uses the tracked stack from [Observer].
+  /// This uses the tracked stack from [NavkitObserver].
   static void _stack({bool withStack = false}) {
     if (withStack) {
       debugPrint("────────────────────────────────────");
       debugPrint("📚 Route Stack:");
-      for (Route route in Observer.routes) {
+      for (Route route in NavkitObserver.routes) {
         debugPrint("   • ${_fmt(route)}");
       }
       debugPrint("────────────────────────────────────");

@@ -6,7 +6,7 @@ import 'package:flutter_navkit/flutter_navkit.dart';
 void main() {
   group('NavkitObserver Tests', () {
     test('hasRoute returns true when route exists', () {
-      final observer = Observer();
+      final observer = NavkitObserver();
       final route = MaterialPageRoute(
         builder: (_) => Container(),
         settings: RouteSettings(name: '/home'),
@@ -14,26 +14,26 @@ void main() {
 
       observer.didPush(route, null);
 
-      expect(Observer.hasRoute('/home'), true);
-      expect(Observer.hasRoute('/nonexistent'), false);
+      expect(NavkitObserver.hasRoute('/home'), true);
+      expect(NavkitObserver.hasRoute('/nonexistent'), false);
     });
 
     test('route is removed after pop', () {
-      final observer = Observer();
+      final observer = NavkitObserver();
       final route = MaterialPageRoute(
         builder: (_) => Container(),
         settings: RouteSettings(name: '/test'),
       );
 
       observer.didPush(route, null);
-      expect(Observer.hasRoute('/test'), true);
+      expect(NavkitObserver.hasRoute('/test'), true);
 
       observer.didPop(route, null);
-      expect(Observer.hasRoute('/test'), false);
+      expect(NavkitObserver.hasRoute('/test'), false);
     });
 
     test('route is replaced correctly', () {
-      final observer = Observer();
+      final observer = NavkitObserver();
       final oldRoute = MaterialPageRoute(
         builder: (_) => Container(),
         settings: RouteSettings(name: '/old'),
@@ -44,11 +44,11 @@ void main() {
       );
 
       observer.didPush(oldRoute, null);
-      expect(Observer.hasRoute('/old'), true);
+      expect(NavkitObserver.hasRoute('/old'), true);
 
       observer.didReplace(oldRoute: oldRoute, newRoute: newRoute);
-      expect(Observer.hasRoute('/old'), false);
-      expect(Observer.hasRoute('/new'), true);
+      expect(NavkitObserver.hasRoute('/old'), false);
+      expect(NavkitObserver.hasRoute('/new'), true);
     });
   });
 

@@ -6,13 +6,13 @@ import 'package:flutter_navkit/src/logger.dart';
 ///
 /// Integrates with [Logger] for printing logs and optionally
 /// printing the full route stack.
-class Observer extends NavigatorObserver {
+class NavkitObserver extends NavigatorObserver {
   /// Whether to print the full route stack on every navigation event.
   final bool withStack;
 
   /// Constructor with optional [withStack] parameter.
   /// Defaults to `false`.
-  Observer({this.withStack = false});
+  NavkitObserver({this.withStack = false});
 
   /// Internal list of routes currently in the navigation stack.
   static final List<Route<dynamic>> _routes = [];

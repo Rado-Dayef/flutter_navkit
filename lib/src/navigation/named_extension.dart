@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_navkit/src/logger.dart';
-import 'package:flutter_navkit/src/observer.dart';
+import 'package:flutter_navkit/src/navkit_observer.dart';
 
 /// Extension on [BuildContext] to provide **named route navigation helpers**
 /// with built-in stack checking and debug logging via [Logger].
@@ -45,9 +45,9 @@ extension NamedExtension on BuildContext {
     }
   }
 
-  /// Pop the current route and **push a new named route** immediately after.
+  /// Pop the current route and **go to a new named route** immediately after.
   ///
-  /// Similar to `pushReplacement`, but explicitly pops first.
+  /// Similar to `pushReplacement`, but explicitly backs first.
   Future<T?> backAndToNamed<T>(String route, {Object? args}) async {
     try {
       return Navigator.of(this).popAndPushNamed(route, arguments: args);
@@ -61,7 +61,7 @@ extension NamedExtension on BuildContext {
   ///
   /// If the route does not exist, logs an error and optionally prints the stack.
   void backToNamed(String route) {
-    if (Observer.hasRoute(route)) {
+    if (NavkitObserver.hasRoute(route)) {
       Navigator.popUntil(this, ModalRoute.withName(route));
     } else {
       Logger.routeNotFoundInStackError(route);
@@ -76,7 +76,7 @@ extension NamedExtension on BuildContext {
   /// Safe wrapper that prevents crashes and logs unexpected issues.
   Future<void> ensureOnRoute(String route, {Object? args}) async {
     try {
-      if (Observer.hasRoute(route)) {
+      if (NavkitObserver.hasRoute(route)) {
         backToNamed(route);
       } else {
         await toNamed(route, args: args);
@@ -86,10 +86,30 @@ extension NamedExtension on BuildContext {
     }
   }
 
+  /// Removes a specific route from the navigator stack by its name.
+  ///
+  /// This uses NavKit's [NavkitObserver.routes] to find the actual `Route` object
+  /// corresponding to the given route name.
+  ///
+  /// [route]: The name of the route to remove. Only works for named routes.
+  /// If the route is not found, an error is logged.
+  void removeRouteByName(String route) {
+    try {
+      // Find the first route in the stack that matches the given name
+      Route routeToRemove = NavkitObserver.routes.firstWhere((currentRoute) => currentRoute.settings.name == route);
+
+      // Remove the found route from the navigator
+      Navigator.of(this).removeRoute(routeToRemove);
+    } catch (e) {
+      // If something goes wrong (e.g., route not found), log a safe error
+      Logger.somethingWentWrongError();
+    }
+  }
+
   /// Check whether a specific named route exists **anywhere** in the stack.
   ///
   /// This does *not* pop or mutate the stack — purely informational.
-  bool canPopToNamed(String route) => Observer.hasRoute(route);
+  bool canPopToNamed(String route) => NavkitObserver.hasRoute(route);
 
   /// Whether the **current** visible route matches the provided name.
   ///
@@ -100,13 +120,13 @@ extension NamedExtension on BuildContext {
   ///
   /// Helpful when you want to avoid pushing the same route twice or want to
   /// back to it only if it exists.
-  bool isRouteInStack(String routeName) => Observer.routes.any((r) => r.settings.name == routeName);
+  bool isRouteInStack(String routeName) => NavkitObserver.routes.any((r) => r.settings.name == routeName);
 
   /// The total number of routes currently tracked in the navigator stack.
   ///
-  /// This uses NavKit's custom [Observer] to ensure full stack visibility,
+  /// This uses NavKit's custom [NavkitObserver] to ensure full stack visibility,
   /// even for unnamed or generated routes.
-  int get stackLength => Observer.routes.length;
+  int get stackLength => NavkitObserver.routes.length;
 
   /// Returns `true` if the current route is the first/root route.
   ///
