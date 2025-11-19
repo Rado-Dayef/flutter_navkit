@@ -1,6 +1,6 @@
 name: flutter_navkit
 description: A powerful navigation toolkit for Flutter with type-safe routing, automatic route generation, and comprehensive navigation observability.
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/Rado-Dayef/flutter_navkit
 repository: https://github.com/Rado-Dayef/flutter_navkit
 
