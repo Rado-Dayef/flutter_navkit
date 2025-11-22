@@ -22,10 +22,10 @@ class NavkitRoutesGenerator extends Generator {
     // Find all classes annotated with @NavkitRoute
     for (var element in library.allElements) {
       if (element is ClassElement) {
-        final annotation = const TypeChecker.typeNamed(NavkitRoute).firstAnnotationOf(element);
+        final annotation = const TypeChecker.fromRuntime(NavkitRoute).firstAnnotationOf(element);
 
         if (annotation != null) {
-          String className = element.name ?? "";
+          String className = element.name;
           final isInitialArg = annotation.getField("isInitial")?.toBoolValue();
 
           // Determine the route name

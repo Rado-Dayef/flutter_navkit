@@ -1,6 +1,6 @@
 name: flutter_navkit
 description: A powerful navigation toolkit for Flutter with type-safe routing, automatic route generation, and comprehensive navigation observability.
-version: 1.0.2
+version: 1.0.3
 homepage: https://github.com/Rado-Dayef/flutter_navkit
 repository: https://github.com/Rado-Dayef/flutter_navkit
 
@@ -12,9 +12,8 @@ dependencies:
   flutter:
     sdk: flutter
   # Required for code generation (used in lib/builder.dart)
-  build: ^4.0.3
-  analyzer: ^9.0.0
-  source_gen: ^4.1.1
+  build: ^2.4.0
+  source_gen: ^1.5.0
 
 dev_dependencies:
   flutter_test:
@@ -22,3 +21,4 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   # Only needed for running the generator
   build_runner: ^2.4.13
+  analyzer: ^6.4.0
