@@ -259,7 +259,7 @@ class SettingsScreen extends StatelessWidget {
               context.showAppDialog(
                 builder: (context) => AlertDialog(
                   title: const Text('About NavKit'),
-                  content: const Text('NavKit Demo v1.0.1'),
+                  content: const Text('NavKit Demo v1.0.2'),
                   actions: [
                     TextButton(
                       onPressed: () => context.back(),
