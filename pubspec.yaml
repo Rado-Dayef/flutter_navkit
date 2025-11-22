@@ -13,6 +13,7 @@ dependencies:
     sdk: flutter
   # Required for code generation (used in lib/builder.dart)
   build: ^4.0.3
+  analyzer: ^9.0.0
   source_gen: ^4.1.1
 
 dev_dependencies:
@@ -21,4 +22,3 @@ dev_dependencies:
   flutter_lints: ^5.0.0
   # Only needed for running the generator
   build_runner: ^2.4.13
-  analyzer: ^9.0.0
